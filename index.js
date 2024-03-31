@@ -3,6 +3,8 @@ const fileUpload = require('express-fileupload');
 const app = express();
 const PORT = 3001;
 const AWS = require('aws-sdk');
+const env= require('dotenv');
+env.config();
 
 AWS.config.update({ region: 'ap-south-1' });
 
@@ -11,11 +13,11 @@ app.use(fileUpload({
     limits: { fileSize: 50 * 1024 * 1024 }
 }));
 
+console.log(process.env.AWS_KEY);
 const s3 = new AWS.S3({
     credentials: {
-        // accessKeyId: process.env.AWS_KEY,
-        // secretAccessKey: process.env.AWS_SECRET
-        
+        accessKeyId: process.env.AWS_KEY,
+        secretAccessKey: process.env.AWS_SECRET
     }
 });
 
